@@ -10,7 +10,7 @@ battery_data = {
     "v_out": 0.0,
     "v_cells": [0.0]*16,
     "current": 0.0,
-    "temp_mos": 0,
+    "temp_BMS": 0,
     "temp_cell1": 0,
     "temp_cell2": 0,
     "temp_cell3": 0,
@@ -40,6 +40,20 @@ async def read_can():
                 new_v_out = (message.data[2] << 8| message.data[3])/10
                 if new_v_out != battery_data["v_out"]:
                     battery_data["v_out"] = new_v_out
+                    dataUpdated = True
+            case 0x18F812F3: #Cell Temp 3&1
+                new_temp_cell3 = message.data[0] - 40 # byte 0
+                new_temp_cell1 = message.data[3] - 40 # byte 4
+                if new_temp_cell3 != battery_data["temp_cell3"]:
+                    battery_data["temp_cell3"] = new_temp_cell3
+                    dataUpdated = True
+                if new_temp_cell1 != battery_data["temp_cell1"]:
+                    battery_data["temp_cell1"] = new_temp_cell1
+                    dataUpdated = True
+            case 0x18F814F3: #Cell Temp 2
+                new_temp_cell2 = message.data[3] # byte 3
+                if new_temp_cell2 != battery_data["temp_cell2"]:
+                    battery_data["temp_cell2"] = new_temp_cell2
                     dataUpdated = True
             case _: #none
                 pass 

@@ -1,0 +1,78 @@
+#imports
+import can #for reading CAN data from battery
+import websockets #for sending data to the React App
+import asyncio #completes tasks when it can and moves on if waiting
+import json #for packaging data to be sent to the React App
+
+#GLOBAL VARS
+battery_data = {
+    "soc":0,
+    "v_out": 0.0,
+    "v_cells": [0.0]*16,
+    "current": 0.0,
+    "temp_mos": 0,
+    "temp_cell1": 0,
+    "temp_cell2": 0,
+    "temp_cell3": 0,
+    "temp_cell4": 0,
+}
+dataUpdated = False
+connected_clients = set()
+
+async def read_can():
+    #import global vars
+    global battery_data
+    global dataUpdated
+
+    #Open CAN bus connection
+    bus = can.interface.Bus(channel='can0', bustype='socketcan') 
+
+    while True:
+        message = await asyncio.get_event_loop().run_in_executor(None,bus.recv) #assign data to a message
+
+        match message.arbitration_id: #identify and 
+            case 0x02028100: #SOC
+                new_soc = message.data[3] #decrypt SOC
+                if new_soc != battery_data["soc"]:
+                    battery_data["soc"] = new_soc
+                    dataUpdated = True
+            case 0x02018100: #Output Voltage
+                new_v_out = (message.data[2] << 8| message.data[3])/10
+                if new_v_out != battery_data["v_out"]:
+                    battery_data["v_out"] = new_v_out
+                    dataUpdated = True
+            case _: #none
+                pass 
+            #case: #Cell 1 Voltage
+            #case: #Cell 2 Voltage
+            #case: #Cell 3 Voltage
+            #case: #Cell 4 Voltage...
+            #case: #temp
+
+async def handler(websocket):
+    #import global vars
+    global connected_clients
+    
+    connected_clients.add(websocket) #add
+    try:
+        await websocket.wait_closed() #wait till closed
+    finally:
+        connected_clients.remove(websocket) #remove after closed
+
+async def broadcast():
+    #import global vars
+    global battery_data
+    global dataUpdated
+    global connected_clients
+
+    while True:
+        if dataUpdated and connected_clients:
+            data = json.dumps(battery_data)
+            await asyncio.gather(*[client.send(data) for client in connected_clients])
+        await asyncio.sleep(0.1) #wait 100ms then check again
+
+async def main():
+    async with websockets.serve(handler,"localhost", 8765):
+        await asyncio.gather(read_can(), broadcast())
+
+asyncio.run(main())

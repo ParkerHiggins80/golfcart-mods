@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Speedometer from "./Speedometer";
 
 interface battery_data {
   soc: number;
@@ -47,6 +48,7 @@ export default function App() {
       <p>Cell 2 Temperature: {data.temp_cell2} °C</p>
       <p>Cell 3 Temperature: {data.temp_cell3} °C</p>
       <p>Cell 4 Temperature: {data.temp_cell4} °C</p>
+      <Speedometer />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Speedometer from "./Speedometer";
+import BatteryStats from "./BatteryStats";
 
 interface battery_data {
   soc: number;
@@ -10,7 +11,6 @@ interface battery_data {
   temp_cell1: number;
   temp_cell2: number;
   temp_cell3: number;
-  temp_cell4: number;
 }
 export default function App() {
   const [data, setData] = useState<battery_data>({
@@ -22,7 +22,6 @@ export default function App() {
     temp_cell1: 0,
     temp_cell2: 0,
     temp_cell3: 0,
-    temp_cell4: 0,
   });
 
   useEffect(() => {
@@ -37,7 +36,15 @@ export default function App() {
   }, []);
 
   return (
-    <div>
+    <div style={{ display: "flex" }}>
+      <BatteryStats data={data} />
+      <Speedometer />
+    </div>
+  );
+}
+
+/*
+
       <h1>Battery Data</h1>
       <p>State of Charge: {data.soc}%</p>
       <p>Output Voltage: {data.v_out} V</p>
@@ -48,7 +55,4 @@ export default function App() {
       <p>Cell 2 Temperature: {data.temp_cell2} °C</p>
       <p>Cell 3 Temperature: {data.temp_cell3} °C</p>
       <p>Cell 4 Temperature: {data.temp_cell4} °C</p>
-      <Speedometer />
-    </div>
-  );
-}
+*/

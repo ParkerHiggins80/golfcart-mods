@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function Speedometer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -10,15 +10,15 @@ export default function Speedometer() {
     if (!ctx) return;
 
     //parameters
-    let speed = 30;
+    let speed = 35;
     let maxSpeed = 35;
     let odometer = 12345.6;
     //colors
-    let grey1 = '#222222';
-    let grey2 = '#616161';
-    let green = '#22c55e';
-    let yellow = '#ea9f0e';
-    let red = '#FF0000';
+    let grey1 = "#222222";
+    let grey2 = "#616161";
+    let green = "#22c55e";
+    let yellow = "#ea9f0e";
+    let red = "#FF0000";
 
     //Gradients
     let dialGradient1 = ctx.createLinearGradient(200, 80, 200, 320);
@@ -29,7 +29,7 @@ export default function Speedometer() {
       (2.25 * Math.PI - startAngle) * (speed / maxSpeed) + startAngle;
     const twentyAngle = startAngle + (20 / maxSpeed) * (endAngle - startAngle);
     const thirtyAngle = startAngle + (30 / maxSpeed) * (endAngle - startAngle);
-    
+
     //Backround Circle
     ctx.beginPath();
     ctx.arc(200, 200, 151, 0, 2 * Math.PI);
@@ -52,7 +52,6 @@ export default function Speedometer() {
 
     //Colored Arc Segments
 
-    
     // Gradient arc 0 to 20
     ctx.beginPath();
     ctx.lineWidth = 13;
@@ -60,28 +59,27 @@ export default function Speedometer() {
     ctx.lineCap = "round";
     ctx.arc(200, 200, 120, startAngle, endAngle);
     ctx.stroke();
-    
 
     // Gradient arc 20 to 30
-    if(speed > 20) {
-    ctx.beginPath();
-    dialGradient1.addColorStop(0, green);
-    dialGradient1.addColorStop(.25, yellow);
-    dialGradient1.addColorStop(1, yellow);
-    ctx.strokeStyle = dialGradient1;
-    ctx.arc(200, 200, 120, twentyAngle, endAngle);
-    ctx.stroke();
+    if (speed > 20) {
+      ctx.beginPath();
+      dialGradient1.addColorStop(0, green);
+      dialGradient1.addColorStop(0.25, yellow);
+      dialGradient1.addColorStop(1, yellow);
+      ctx.strokeStyle = dialGradient1;
+      ctx.arc(200, 200, 120, twentyAngle, endAngle);
+      ctx.stroke();
     }
-    
+
     // Red arc 30 to 35
-    if(speed > 30) {
-    dialGradient2.addColorStop(.2, yellow);
-    dialGradient2.addColorStop(.55, yellow);
-    dialGradient2.addColorStop(1, red);
-    ctx.strokeStyle = dialGradient2;
-    ctx.beginPath();
-    ctx.arc(200, 200, 120, thirtyAngle, endAngle);
-    ctx.stroke();
+    if (speed > 30) {
+      dialGradient2.addColorStop(0.2, yellow);
+      dialGradient2.addColorStop(0.55, yellow);
+      dialGradient2.addColorStop(1, red);
+      ctx.strokeStyle = dialGradient2;
+      ctx.beginPath();
+      ctx.arc(200, 200, 120, thirtyAngle, endAngle);
+      ctx.stroke();
     }
 
     //Major Tick Marks & Labels
@@ -116,8 +114,7 @@ export default function Speedometer() {
     //Minor Tick Marks
     for (let i = 0; i <= maxSpeed; i += 1) {
       if (i % 5 === 0) continue; // Skip major ticks
-      const angle =
-        (2.25 * Math.PI - startAngle) * (i / maxSpeed) + startAngle;
+      const angle = (2.25 * Math.PI - startAngle) * (i / maxSpeed) + startAngle;
       const innerRadius = 103;
       const outerRadius = 109;
       const x1 = 200 + innerRadius * Math.cos(angle);
@@ -168,8 +165,17 @@ export default function Speedometer() {
     ctx.textAlign = "center";
     ctx.fillStyle = "#252525";
     ctx.fillText(`${odometer.toFixed(1)} mi`, 200, 293);
-
   }, []);
 
-  return <canvas ref={canvasRef} width={400} height={400} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      width={400}
+      height={400}
+      style={{
+        width: "700px",
+        height: "700px",
+      }}
+    />
+  );
 }

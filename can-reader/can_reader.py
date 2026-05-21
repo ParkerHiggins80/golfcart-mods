@@ -55,8 +55,13 @@ async def read_can():
                 if new_temp_cell2 != battery_data["temp_cell2"]:
                     battery_data["temp_cell2"] = new_temp_cell2
                     dataUpdated = True
+            case 0x18FC28F4:
+                new_current = message.data[4] # byte 4, no scaling needed, value in amps
+                if new_current != battery_data["current"]:
+                    battery_data["current"] = new_current
+                    dataUpdated = True
             case _: #none
-                pass 
+                pass
             #case: #Cell 1 Voltage
             #case: #Cell 2 Voltage
             #case: #Cell 3 Voltage

@@ -21,23 +21,22 @@ const BATTERY_MODEL = "51V 105Ah LiFePO4 Heated";
 
 //Helper function to determine SOC bar color based on percentage (Green >50%, Yellow 20-50%, Red <20%)
 const getSOCColor = (soc: number) => {
-    if (soc > 50) {
-      const ratio = (soc - 50) / 50;
-      const r = Math.round(239 - (239 - 34) * ratio);
-      const g = Math.round(68 - (68 - 197) * ratio);
-      const b = Math.round(68 - 68 * ratio);
-      return `rgb(${r}, ${g}, ${b})`;
-    } else {
-      const ratio = soc / 50;
-      const r = Math.round(239);
-      const g = Math.round(168 * ratio);
-      const b = Math.round(0);
-      return `rgb(${r}, ${g}, ${b})`;
-    }
-  };
-  
+  if (soc > 50) {
+    const ratio = (soc - 50) / 50;
+    const r = Math.round(239 - (239 - 34) * ratio);
+    const g = Math.round(68 - (68 - 197) * ratio);
+    const b = Math.round(68 - 68 * ratio);
+    return `rgb(${r}, ${g}, ${b})`;
+  } else {
+    const ratio = soc / 50;
+    const r = Math.round(239);
+    const g = Math.round(168 * ratio);
+    const b = Math.round(0);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+};
+
 export default function BatteryStats({ data }: BatteryStatsProps) {
- 
   const kWhRemaining = ((data.soc / 100) * BATTERY_CAPACITY_KWH).toFixed(1);
   const powerDraw = data.current * data.v_out;
 

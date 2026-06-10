@@ -1,6 +1,20 @@
 import { useEffect, useRef } from "react";
 
-export default function Speedometer() {
+interface CartStatsProps {
+  data: {
+    soc: number;
+    v_out: number;
+    v_cells: number[];
+    current: number;
+    temp_BMS: number;
+    temp_cell1: number;
+    temp_cell2: number;
+    temp_cell3: number;
+    speed_MPH: number;
+  };
+}
+
+export default function Speedometer({ data }: CartStatsProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -10,7 +24,7 @@ export default function Speedometer() {
     if (!ctx) return;
 
     //parameters
-    let speed = 35;
+    let speed = data.speed_MPH;
     let maxSpeed = 35;
     let odometer = 12345.6;
     //colors

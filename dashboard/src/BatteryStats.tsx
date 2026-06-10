@@ -1,6 +1,6 @@
 // no imports needed — this component is pure props + rendering
 
-interface BatteryStatsProps {
+interface CartStatsProps {
   data: {
     soc: number;
     v_out: number;
@@ -10,6 +10,7 @@ interface BatteryStatsProps {
     temp_cell1: number;
     temp_cell2: number;
     temp_cell3: number;
+    speed_MPH: number;
   };
 }
 
@@ -36,7 +37,7 @@ const getSOCColor = (soc: number) => {
   }
 };
 
-export default function BatteryStats({ data }: BatteryStatsProps) {
+export default function BatteryStats({ data }: CartStatsProps) {
   const kWhRemaining = ((data.soc / 100) * BATTERY_CAPACITY_KWH).toFixed(1);
   const powerDraw = data.current * data.v_out;
 

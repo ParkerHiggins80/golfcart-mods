@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Speedometer from "./Speedometer";
 import BatteryStats from "./BatteryStats";
 
-interface battery_data {
+interface cart_data {
   soc: number;
   v_out: number;
   v_cells: number[];
@@ -11,9 +11,10 @@ interface battery_data {
   temp_cell1: number;
   temp_cell2: number;
   temp_cell3: number;
+  speed_MPH: number;
 }
 export default function App() {
-  const [data, setData] = useState<battery_data>({
+  const [data, setData] = useState<cart_data>({
     soc: 0,
     v_out: 0,
     v_cells: Array(16).fill(0),
@@ -22,6 +23,7 @@ export default function App() {
     temp_cell1: 0,
     temp_cell2: 0,
     temp_cell3: 0,
+    speed_MPH: 0,
   });
 
   useEffect(() => {
@@ -36,9 +38,9 @@ export default function App() {
   }, []);
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ transform: 'rotate(180deg)', display: "flex" }}>
       <BatteryStats data={data} />
-      <Speedometer />
+      <Speedometer data={data} />
     </div>
   );
 }

@@ -1,0 +1,49 @@
+==========================================================
+           SOLAR CHARGE SESSION - LIVE REPORT
+==========================================================
+Session started : 2026-08-26 11:28:12
+Last updated    : 2026-08-26 17:45:57
+Runtime         : 6h 17m 44s
+Samples logged  : 21279
+
+-- CURRENT -----------------------------------------------
+  Now             : 0.0 A
+  Average         : 1.23 A
+  Recent avg (5m) : 0.20 A
+  Max             : 24.4 A
+  Min             : 0.0 A
+
+-- VOLTAGE -----------------------------------------------
+  Initial         : 52.9 V
+  Now             : 53.5 V
+  Change          : +0.6 V
+  Max             : 53.7 V
+  Min             : 52.9 V
+
+-- STATE OF CHARGE ---------------------------------------
+  Initial         : 58 %
+  Now             : 66 %
+  Gained          : +8 %
+  Avg time per 1% : 32m 19s
+  Last 1% took    : 38m 49s
+  Est. to 100%    : 20h 29m 10s  (~14:15)
+
+-- ENERGY DELIVERED --------------------------------------
+  Amp-hours       : 7.752 Ah
+  Watt-hours      : 414.68 Wh
+  Power now       : 0.0 W
+  Avg power       : 65.8 W
+  Peak power      : 1305.4 W
+
+-- TEMPERATURES ------------------------------------------
+  Cell 1 / 2 / 3  : 27 / 27 / 28 C
+  Initial max     : 26 C
+  Peak max        : 28 C
+
+-- CURRENT MIRROR CHECK ----------------------------------
+  0x4D4        : 0.0 A  [ok]
+  0x18904010   : 0.0 A  [ok]
+  0x18FA28F4   : 0.0 A  [ok]
+
+CSV data: SolarLog_2026-08-26_11-28-12.csv
+==========================================================
